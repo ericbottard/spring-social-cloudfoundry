@@ -20,14 +20,71 @@ import java.net.URL;
 import org.cloudfoundry.client.lib.CloudFoundryOperations;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
+/**
+ * Factory dedicated to the creation of CloudFoundry related connections.
+ * 
+ * @author Eric Bottard
+ * 
+ */
 public class CloudFoundryConnectionFactory extends
 		OAuth2ConnectionFactory<CloudFoundryOperations> {
 
+	/**
+	 * Create a new connection factory targeting VMware's CloudFoundry platform
+	 * at http://api.cloudfoundry.com.
+	 * 
+	 * @param clientId
+	 *            the app client id
+	 * @param clientSecret
+	 *            the app client secret
+	 */
 	public CloudFoundryConnectionFactory(String clientId, String clientSecret) {
-        super("cloudfoundry", new CloudFoundryServiceProvider(clientId, clientSecret), new CloudFoundryAdapter());
-    }
+		super("cloudfoundry", new CloudFoundryServiceProvider(clientId,
+				clientSecret), new CloudFoundryAdapter());
+	}
 
-	public CloudFoundryConnectionFactory(String clientId, String clientSecret, String uaaRoot, URL apiURL) {
-        super("cloudfoundry", new CloudFoundryServiceProvider(clientId, clientSecret, uaaRoot, apiURL), new CloudFoundryAdapter());
-    }
+	/**
+	 * Create a new connection factory targeting any compatible CloudFoundry
+	 * platform, whose UAA is located at {@code uaaRoot} and cloudcontroller is
+	 * at {@code apiURL}.
+	 * 
+	 * @param clientId
+	 *            the app client id
+	 * @param clientSecret
+	 *            the app client secret
+	 * @param uaaRoot
+	 *            base url of the uaa
+	 * @param apiURL
+	 *            location of the "cloud controller" REST API
+	 * 
+	 */
+	public CloudFoundryConnectionFactory(String clientId, String clientSecret,
+			String uaaRoot, URL apiURL) {
+		super("cloudfoundry", new CloudFoundryServiceProvider(clientId,
+				clientSecret, uaaRoot, apiURL), new CloudFoundryAdapter());
+	}
+
+	/**
+	 * Create a new connection factory targeting any compatible CloudFoundry
+	 * platform, with full customization of OAuth2 URLs and cloudcontroller is
+	 * at {@code apiURL}.
+	 * 
+	 * @param clientId
+	 *            the app client id
+	 * @param clientSecret
+	 *            the app client secret
+	 * @param authorizeURL
+	 *            location of the authorize OAuth2 callback
+	 * @param tokenURL
+	 *            location of the token OAuth2 callback
+	 * @param apiURL
+	 *            location of the "cloud controller" REST API
+	 * 
+	 */
+	public CloudFoundryConnectionFactory(String clientId, String clientSecret,
+			String authorizeURL, String tokenURL, URL apiURL) {
+		super("cloudfoundry", new CloudFoundryServiceProvider(clientId,
+				clientSecret, authorizeURL, tokenURL, apiURL),
+				new CloudFoundryAdapter());
+	}
 }
