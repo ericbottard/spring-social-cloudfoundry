@@ -4,7 +4,7 @@
 
 	<groupId>org.springframework.social</groupId>
 	<artifactId>spring-social-cloudfoundry</artifactId>
-	<version>1.0-SNAPSHOT</version>
+	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>spring-social-cloudfoundry</name>
@@ -124,8 +124,13 @@
 			<plugin>
 				<groupId>com.mycila.maven-license-plugin</groupId>
 				<artifactId>maven-license-plugin</artifactId>
+				<version>1.10.b1</version>
 				<configuration>
 					<header>src/etc/header.txt</header>
+					<includes>
+						<include>src/main/java/**/*.java</include>
+					</includes>
+					<strictCheck>true</strictCheck>
 				</configuration>
 				<executions>
 					<execution>
