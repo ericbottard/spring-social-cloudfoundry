@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -15,7 +15,8 @@
  */
 package org.springframework.social.cloudfoundry.connect;
 
-import org.cloudfoundry.client.lib.CloudFoundryOperations;
+import org.cloudfoundry.client.lib.domain.CloudInfo;
+import org.springframework.social.cloudfoundry.api.CloudFoundry;
 import org.springframework.social.connect.ApiAdapter;
 import org.springframework.social.connect.ConnectionValues;
 import org.springframework.social.connect.UserProfile;
@@ -28,12 +29,12 @@ import org.springframework.social.connect.UserProfileBuilder;
  * @author Eric Bottard
  * 
  */
-public class CloudFoundryAdapter implements ApiAdapter<CloudFoundryOperations> {
+public class CloudFoundryAdapter implements ApiAdapter<CloudFoundry> {
 
 	@Override
-	public boolean test(CloudFoundryOperations api) {
+	public boolean test(CloudFoundry api) {
 		try {
-			api.getCloudInfo();
+			api.cloudControllerOperations().getCloudInfo();
 			return true;
 		} catch (Exception e) {
 			return false;
@@ -41,18 +42,20 @@ public class CloudFoundryAdapter implements ApiAdapter<CloudFoundryOperations> {
 	}
 
 	@Override
-	public void setConnectionValues(CloudFoundryOperations api,
-			ConnectionValues values) {
-		values.setProviderUserId(api.getCloudInfo().getUser());
+	public void setConnectionValues(CloudFoundry api, ConnectionValues values) {
+		values.setProviderUserId(api.cloudControllerOperations().getCloudInfo()
+				.getUser());
 	}
 
 	@Override
-	public UserProfile fetchUserProfile(CloudFoundryOperations api) {
-		return new UserProfileBuilder().build();
+	public UserProfile fetchUserProfile(CloudFoundry api) {
+		CloudInfo cloudInfo = api.cloudControllerOperations().getCloudInfo();
+		return new UserProfileBuilder().setEmail(cloudInfo.getUser())
+				.setEmail(cloudInfo.getUser()).build();
 	}
 
 	@Override
-	public void updateStatus(CloudFoundryOperations api, String message) {
+	public void updateStatus(CloudFoundry api, String message) {
 		// NO-op
 	}
 

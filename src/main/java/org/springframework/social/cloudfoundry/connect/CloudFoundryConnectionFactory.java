@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -17,7 +17,7 @@ package org.springframework.social.cloudfoundry.connect;
 
 import java.net.URL;
 
-import org.cloudfoundry.client.lib.CloudFoundryOperations;
+import org.springframework.social.cloudfoundry.api.CloudFoundry;
 import org.springframework.social.connect.support.OAuth2ConnectionFactory;
 
 /**
@@ -27,7 +27,7 @@ import org.springframework.social.connect.support.OAuth2ConnectionFactory;
  * 
  */
 public class CloudFoundryConnectionFactory extends
-		OAuth2ConnectionFactory<CloudFoundryOperations> {
+		OAuth2ConnectionFactory<CloudFoundry> {
 
 	/**
 	 * Create a new connection factory targeting VMware's CloudFoundry platform

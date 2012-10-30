@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2012 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,8 +19,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.cloudfoundry.client.lib.CloudCredentials;
-import org.cloudfoundry.client.lib.CloudFoundryClient;
-import org.cloudfoundry.client.lib.CloudFoundryOperations;
+import org.springframework.social.cloudfoundry.api.CloudFoundry;
+import org.springframework.social.cloudfoundry.api.impl.CloudFoundryTemplate;
 import org.springframework.social.oauth2.AbstractOAuth2ServiceProvider;
 import org.springframework.social.oauth2.OAuth2Template;
 
@@ -31,7 +31,7 @@ import org.springframework.social.oauth2.OAuth2Template;
  * 
  */
 public class CloudFoundryServiceProvider extends
-		AbstractOAuth2ServiceProvider<CloudFoundryOperations> {
+		AbstractOAuth2ServiceProvider<CloudFoundry> {
 
 	/**
 	 * Where the CloudController REST API resides. Default is
@@ -60,8 +60,8 @@ public class CloudFoundryServiceProvider extends
 	 */
 	public CloudFoundryServiceProvider(String clientId, String clientSecret) {
 		super(new OAuth2Template(clientId, clientSecret,
-				"https://uaa.cloudfoundry.com/oauth/authorize",
-				"https://uaa.cloudfoundry.com/oauth/token"));
+				"https://login.cloudfoundry.com/oauth/authorize",
+				"https://login.cloudfoundry.com/oauth/token"));
 		this.apiURL = DEFAULT_API_URL;
 	}
 
@@ -86,8 +86,8 @@ public class CloudFoundryServiceProvider extends
 	}
 
 	@Override
-	public CloudFoundryOperations getApi(String accessToken) {
-		return new CloudFoundryClient(new CloudCredentials(accessToken), apiURL);
+	public CloudFoundry getApi(String accessToken) {
+		return new CloudFoundryTemplate(new CloudCredentials(accessToken), apiURL);
 	}
 
 }
